@@ -478,3 +478,20 @@ class TestRunTC(object):
         finally:
             os.remove(module)
             os.removedirs(fake_path)
+
+    def test_pylint_with_or_without_init_file(self):
+        module = join(HERE, 'regrtest_data', 'bad_module/not_init.py')
+
+        expected_output = textwrap.dedent("""
+            ************* Module not_init
+            C:  1, 0: Missing module docstring (missing-docstring)
+            C:  2, 0: Constant name "string" doesn't conform to UPPER_CASE naming style (invalid-name)
+            W:  1, 0: Unused import pylint (unused-import)
+            """)
+        self._test_output([module, "--lint-all y"], expected_output=expected_output)
+
+        expected_output = textwrap.dedent("""
+            ************
+            F0010: 1: error while code parsing: Unable to load file
+            """)
+        self._test_output([module], expected_output=expected_output)
