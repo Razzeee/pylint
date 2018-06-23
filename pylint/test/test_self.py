@@ -488,7 +488,7 @@ class TestRunTC(object):
             C:  2, 0: Constant name "string" doesn't conform to UPPER_CASE naming style (invalid-name)
             W:  1, 0: Unused import pylint (unused-import)
             """)
-        self._test_output([module, "--lint-all y"], expected_output=expected_output)
+        self._test_output([module, "--lint-all=y"], expected_output=expected_output)
 
         expected_output = textwrap.dedent("""
             ************
